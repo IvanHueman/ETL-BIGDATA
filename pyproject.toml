@@ -1,0 +1,9 @@
+[project]
+name = "dpdf-engine"
+version = "0.1.0"
+description = "Prototipo de plataforma de Big Data para el pronóstico de ventas (IPN UPIICSA, Equipo 7)"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

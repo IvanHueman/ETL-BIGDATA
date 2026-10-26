@@ -1,0 +1,68 @@
+# Plataformas que monitorea DPDF-Engine. Cada una tiene un adaptador en dpdf/scraping/.
+#
+# Variables disponibles en url_busqueda:
+#   {consulta_guiones}  "logitech-m170"
+#   {consulta_mas}      "logitech+m170"
+#   {consulta_url}      "logitech%20m170"
+#
+# pausa_seg: espera aleatoria entre peticiones al MISMO dominio (mínimo, máximo).
+#            Si el robots.txt declara Crawl-delay mayor, se usa ese.
+# consultas: qué consultas del catálogo se lanzan en esta plataforma (modelo y/o generica).
+# requiere_js: la página arma la lista de productos con JavaScript; se usa Playwright si
+#              está instalado y, si no, se intenta leer el JSON que viene incrustado en el HTML.
+# es_mayoreo: los precios son de mayoreo (por pieza con pedido mínimo); no se filtran por
+#             rango de precio y se analizan aparte.
+
+# User-Agent honesto: identifica al crawler. Las reglas de robots.txt se evalúan con este valor.
+user_agent: "DPDF-Engine/0.1 (prototipo academico IPN UPIICSA; uso no comercial)"
+
+plataformas:
+  mercadolibre:
+    nombre: Mercado Libre México
+    url_base: https://www.mercadolibre.com.mx
+    url_busqueda: "https://listado.mercadolibre.com.mx/{consulta_guiones}"
+    moneda: MXN
+    requiere_js: false
+    es_mayoreo: false
+    pausa_seg: [5, 10]
+    consultas: [modelo, generica]
+
+  amazon:
+    nombre: Amazon México
+    url_base: https://www.amazon.com.mx
+    url_busqueda: "https://www.amazon.com.mx/s?k={consulta_mas}"
+    moneda: MXN
+    requiere_js: false
+    es_mayoreo: false
+    pausa_seg: [8, 15]
+    consultas: [modelo, generica]
+
+  aliexpress:
+    nombre: AliExpress
+    url_base: https://es.aliexpress.com
+    url_busqueda: "https://es.aliexpress.com/w/wholesale-{consulta_guiones}.html"
+    moneda: MXN
+    requiere_js: true
+    es_mayoreo: false
+    pausa_seg: [8, 15]
+    consultas: [modelo, generica]
+
+  temu:
+    nombre: Temu México
+    url_base: https://www.temu.com/mx
+    url_busqueda: "https://www.temu.com/mx/search_result.html?search_key={consulta_url}"
+    moneda: MXN
+    requiere_js: true
+    es_mayoreo: false
+    pausa_seg: [10, 18]
+    consultas: [generica]
+
+  alibaba:
+    nombre: Alibaba (mayoreo)
+    url_base: https://www.alibaba.com
+    url_busqueda: "https://www.alibaba.com/trade/search?SearchText={consulta_mas}"
+    moneda: USD
+    requiere_js: false
+    es_mayoreo: true
+    pausa_seg: [8, 15]
+    consultas: [generica]

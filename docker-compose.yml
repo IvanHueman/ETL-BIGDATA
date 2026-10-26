@@ -1,0 +1,18 @@
+# PostgreSQL con la extensión TimescaleDB (base relacional optimizada para series de tiempo).
+# Uso: docker compose up -d   y descomentar DATABASE_URL en .env
+services:
+  db:
+    image: timescale/timescaledb:latest-pg16
+    container_name: dpdf-db
+    environment:
+      POSTGRES_USER: dpdf
+      POSTGRES_PASSWORD: dpdf
+      POSTGRES_DB: dpdf
+    ports:
+      - "5432:5432"
+    volumes:
+      - dpdf_pg:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  dpdf_pg:

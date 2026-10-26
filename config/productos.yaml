@@ -1,0 +1,196 @@
+# Catálogo de productos que monitorea DPDF-Engine.
+#
+# Cada producto tiene un MODELO DE REFERENCIA. Comparar precios entre plataformas
+# solo tiene sentido si es el mismo artículo; por eso el matching distingue dos niveles:
+#   - exacto:      la publicación es el modelo de referencia (marca + grupos de "modelo").
+#   - equivalente: misma categoría y especificación (grupos de "categoria"), otra marca o genérico.
+#                  Sirve para Temu/AliExpress/Alibaba, donde casi todo es genérico.
+#
+# Reglas de los grupos: cada grupo es una lista de alternativas; deben cumplirse TODOS los
+# grupos y, dentro de cada grupo, basta con UNA alternativa. El texto se compara sin acentos,
+# en minúsculas y separando números de letras ("10000mAh" -> "10000 mah", "USB-C" -> "usb c").
+#
+# El bloque "simulacion" alimenta el generador de ventas sintéticas (dpdf/simulacion/ventas.py).
+# Las elasticidades son la "verdad" que el modelo de ML debería poder recuperar.
+
+productos:
+  - id: mouse
+    nombre: Mouse inalámbrico
+    categoria: Periféricos
+    marca: Logitech
+    modelo_referencia: Logitech M170
+    precio_base_mxn: 229
+    consultas:
+      modelo: logitech m170
+      generica: mouse inalambrico
+    match:
+      marca: [logitech]
+      modelo: [[m170]]
+      categoria: [[mouse, raton], [inalambrico, wireless, "2.4"]]
+      excluir: [mouse pad, mousepad, funda, estuche, combo, teclado y mouse, kit, receptor, repuesto, skin]
+      rango_exacto_mxn: [120, 600]
+      rango_equivalente_mxn: [40, 700]
+    simulacion: {demanda_base: 22, elasticidad_propia: -1.5, elasticidad_relativa: -1.0, crecimiento_anual: 0.06, regreso_clases: 1.35, dia_padre: 1.00}
+
+  - id: audifonos
+    nombre: Audífonos Bluetooth TWS
+    categoria: Audio
+    marca: Xiaomi
+    modelo_referencia: Xiaomi Redmi Buds 6 Active
+    precio_base_mxn: 399
+    consultas:
+      modelo: redmi buds 6 active
+      generica: audifonos bluetooth inalambricos
+    match:
+      marca: [xiaomi, redmi]
+      modelo: [[buds 6 active]]
+      categoria: [[audifonos, audifono, auriculares, earbuds], [bluetooth, inalambricos, inalambrico, tws]]
+      excluir: [funda, case, estuche de repuesto, almohadillas, gomas, repuesto, solo estuche]
+      rango_exacto_mxn: [200, 900]
+      rango_equivalente_mxn: [60, 1500]
+    simulacion: {demanda_base: 26, elasticidad_propia: -1.6, elasticidad_relativa: -1.1, crecimiento_anual: 0.10, regreso_clases: 1.20, dia_padre: 1.30}
+
+  - id: teclado
+    nombre: Teclado mecánico
+    categoria: Periféricos
+    marca: Redragon
+    modelo_referencia: Redragon Kumara K552
+    precio_base_mxn: 749
+    consultas:
+      modelo: redragon kumara k552
+      generica: teclado mecanico
+    match:
+      marca: [redragon]
+      modelo: [[k552, kumara]]
+      categoria: [[teclado, keyboard], [mecanico, mechanical]]
+      excluir: [keycaps, teclas de repuesto, funda, switches, reposamunecas, combo, teclado y mouse, kit]
+      rango_exacto_mxn: [400, 1500]
+      rango_equivalente_mxn: [200, 2500]
+    simulacion: {demanda_base: 9, elasticidad_propia: -1.2, elasticidad_relativa: -0.8, crecimiento_anual: 0.05, regreso_clases: 1.40, dia_padre: 1.10}
+
+  - id: cargador
+    nombre: Cargador USB-C 20 W
+    categoria: Energía
+    marca: Ugreen
+    modelo_referencia: Ugreen cargador USB-C 20W PD
+    precio_base_mxn: 249
+    consultas:
+      modelo: ugreen cargador usb c 20w
+      generica: cargador usb c 20w
+    match:
+      marca: [ugreen]
+      modelo: [["20 w"]]
+      categoria: [[cargador, charger, adaptador de corriente], [usb c, tipo c, type c, pd], ["20 w", 20 watts]]
+      excluir: [auto, coche, carro, magsafe, funda, solo cable, inalambrico, base de carga]
+      rango_exacto_mxn: [120, 600]
+      rango_equivalente_mxn: [50, 800]
+    simulacion: {demanda_base: 30, elasticidad_propia: -1.3, elasticidad_relativa: -1.2, crecimiento_anual: 0.08, regreso_clases: 1.10, dia_padre: 1.00}
+
+  - id: power_bank
+    nombre: Power bank 10000 mAh
+    categoria: Energía
+    marca: Xiaomi
+    modelo_referencia: Xiaomi Power Bank 10000 mAh
+    precio_base_mxn: 399
+    consultas:
+      modelo: xiaomi power bank 10000 mah
+      generica: power bank 10000 mah
+    match:
+      marca: [xiaomi, redmi]
+      modelo: [["10000", "10 000"]]
+      categoria: [[power bank, powerbank, bateria portatil, bateria externa, cargador portatil], ["10000", "10 000", 10k]]
+      excluir: [funda, estuche, solo cable]
+      rango_exacto_mxn: [200, 900]
+      rango_equivalente_mxn: [120, 1200]
+    simulacion: {demanda_base: 12, elasticidad_propia: -1.4, elasticidad_relativa: -0.9, crecimiento_anual: 0.04, regreso_clases: 1.05, dia_padre: 1.15}
+
+  - id: microsd
+    nombre: Memoria microSD 128 GB
+    categoria: Almacenamiento
+    marca: SanDisk
+    modelo_referencia: SanDisk Ultra microSD 128 GB
+    precio_base_mxn: 199
+    consultas:
+      modelo: sandisk ultra micro sd 128gb
+      generica: memoria micro sd 128gb
+    match:
+      marca: [sandisk]
+      modelo: [[ultra], ["128 gb"]]
+      categoria: [[micro sd, microsd, microsdxc, tarjeta de memoria, memoria], ["128 gb"]]
+      excluir: [lector, adaptador solo, funda, estuche]
+      rango_exacto_mxn: [100, 450]
+      rango_equivalente_mxn: [60, 600]
+    simulacion: {demanda_base: 18, elasticidad_propia: -1.7, elasticidad_relativa: -1.3, crecimiento_anual: 0.02, regreso_clases: 1.15, dia_padre: 1.00}
+
+  - id: hub_usbc
+    nombre: Hub USB-C 5 en 1
+    categoria: Conectividad
+    marca: Ugreen
+    modelo_referencia: Ugreen Hub USB-C 5 en 1 HDMI 4K
+    precio_base_mxn: 499
+    consultas:
+      modelo: ugreen hub usb c 5 en 1 hdmi
+      generica: hub usb c hdmi 5 en 1
+    match:
+      marca: [ugreen]
+      modelo: [[5 en 1, 5 in 1], [hdmi]]
+      categoria: [[hub, adaptador multipuerto, multipuerto, dock, docking], [usb c, tipo c, type c], [hdmi]]
+      excluir: [funda, solo cable]
+      rango_exacto_mxn: [250, 1200]
+      rango_equivalente_mxn: [100, 1500]
+    simulacion: {demanda_base: 7, elasticidad_propia: -1.1, elasticidad_relativa: -0.7, crecimiento_anual: 0.09, regreso_clases: 1.25, dia_padre: 1.00}
+
+  - id: smartband
+    nombre: Pulsera inteligente
+    categoria: Wearables
+    marca: Xiaomi
+    modelo_referencia: Xiaomi Smart Band 9
+    precio_base_mxn: 799
+    consultas:
+      modelo: xiaomi smart band 9
+      generica: pulsera inteligente smart band
+    match:
+      marca: [xiaomi, mi band]
+      modelo: [[band 9]]
+      excluir_modelo: [pro, active, nfc]
+      categoria: [[smart band, smartband, pulsera inteligente, banda inteligente, reloj inteligente, smartwatch]]
+      excluir: [correa, extensible, mica, protector, cargador para, cable de carga, funda]
+      rango_exacto_mxn: [450, 1500]
+      rango_equivalente_mxn: [150, 2500]
+    simulacion: {demanda_base: 10, elasticidad_propia: -1.3, elasticidad_relativa: -0.8, crecimiento_anual: 0.07, regreso_clases: 1.00, dia_padre: 1.50}
+
+  - id: bocina
+    nombre: Bocina Bluetooth portátil
+    categoria: Audio
+    marca: JBL
+    modelo_referencia: JBL Go 4
+    precio_base_mxn: 849
+    consultas:
+      modelo: jbl go 4
+      generica: bocina bluetooth portatil
+    match:
+      marca: [jbl]
+      modelo: [[go 4]]
+      categoria: [[bocina, altavoz, parlante, speaker], [bluetooth, inalambrica, portatil]]
+      excluir: [funda, estuche, soporte, correa]
+      rango_exacto_mxn: [500, 1500]
+      rango_equivalente_mxn: [150, 2000]
+    simulacion: {demanda_base: 11, elasticidad_propia: -1.2, elasticidad_relativa: -0.9, crecimiento_anual: 0.05, regreso_clases: 1.00, dia_padre: 1.40}
+
+  - id: cable_usbc
+    nombre: Cable USB-C a USB-C 60 W
+    categoria: Conectividad
+    marca: Ugreen
+    modelo_referencia: Ugreen cable USB-C a USB-C 60W 1 m
+    precio_base_mxn: 149
+    consultas:
+      modelo: ugreen cable usb c a usb c 60w
+      generica: cable usb c a usb c 60w
+    match:
+      marca: [ugreen]
+      modelo: [["60 w"]]
+      categoria: [[cable], [usb c, tipo c, type c], ["60 w", "100 w", "240 w"]]
+      excluir: [lightning, micro usb, hdmi, cargador de auto, adaptador, hub]
+      rango_exacto_mxn: [80, 400]
+      rango_equivalente_mxn: [25, 500]
+    simulacion: {demanda_base: 35, elasticidad_propia: -1.6, elasticidad_relativa: -1.4, crecimiento_anual: 0.06, regreso_clases: 1.10, dia_padre: 1.00}

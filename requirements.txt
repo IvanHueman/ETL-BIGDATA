@@ -1,0 +1,19 @@
+httpx>=0.27
+beautifulsoup4>=4.12
+lxml>=5.0
+protego>=0.3          # robots.txt con comodines (RFC 9309)
+rapidfuzz>=3.0        # fuzzy matching
+SQLAlchemy>=2.0
+pandas>=2.1
+numpy>=1.26
+pyarrow>=15           # exportar a Parquet
+PyYAML>=6.0
+python-dotenv>=1.0
+tzdata                # zona horaria America/Mexico_City en Windows
+pytest>=8.0
+
+# Opcional: Postgres/TimescaleDB (docker compose up -d)
+psycopg[binary]>=3.1
+
+# Opcional: páginas que se arman con JavaScript (AliExpress, Temu)
+#   pip install playwright && playwright install chromium
